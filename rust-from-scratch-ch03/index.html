@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title>Jessun&#x27;s Blog - Rust From Scratch chap.03 | Rust 的类型系统</title>
+
+      
+
+      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/mathtex-script-type.min.js" integrity="sha384-zWYbd0NBwgTsgIdFKVprSfTh1mbMPe5Hz1X3yY4Sd1h/K1cQoUe36OGwAGz/PcDy" crossorigin="anonymous"></script>
+              
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+                  onload="renderMathInElement(document.body);"></script>
+              
+          
+      
+
+      
+          <link rel="stylesheet" href="https:&#x2F;&#x2F;jessun.github.io&#x2F;site.css">
+          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+          
+      
+
+      
+      
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div id="mobile-navbar" class="mobile-navbar">
+              <div class="mobile-header-logo">
+                <a href="/" class="logo">Jessun&#x27;s Blog</a>
+              </div>
+              <div class="mobile-navbar-icon icon-out">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+              <ul class="mobile-menu-list">
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;jessun.github.io">
+                            Home
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;jessun.github.io&#x2F;categories">
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;jessun.github.io&#x2F;tags">
+                            Tags
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;jessun.github.io&#x2F;about">
+                            About
+                        </a>
+                    </li>
+                
+              </ul>
+            </nav>
+
+            <header id="header">
+                <div class="logo"><a href="https:&#x2F;&#x2F;jessun.github.io">Jessun&#x27;s Blog</a></div>
+                <nav class="menu">
+                    <ul>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;jessun.github.io">
+                                    Home
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;jessun.github.io&#x2F;categories">
+                                    Categories
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;jessun.github.io&#x2F;tags">
+                                    Tags
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;jessun.github.io&#x2F;about">
+                                    About
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <div class="content" id="mobile-panel">
+                    
+
+
+<div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content always-active">
+        <nav id="TableOfContents">
+            <ul>
+                
+                <li>
+                    <a href="https://jessun.github.io/rust-from-scratch-ch03/#1-ji-ben-shu-ju-lei-xing" class="toc-link">1. 基本数据类型</a>
+                    
+                    <ul>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#1-1-zheng-xing" class="toc-link">1.1 整型</a>
+                        </li>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#1-2-fu-dian-xing" class="toc-link">1.2 浮点型</a>
+                        </li>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#1-3-zi-fu-chuan" class="toc-link">1.3 字符串</a>
+                        </li>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#1-4-zhi-zhen-lei-xing" class="toc-link">1.4 指针类型</a>
+                        </li>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#1-5-yin-yong" class="toc-link">1.5 引用</a>
+                        </li>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#1-6-yuan-zu" class="toc-link">1.6 元组</a>
+                        </li>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#1-7-never-lei-xing" class="toc-link">1.7 Never 类型</a>
+                        </li>
+                        
+                    </ul>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://jessun.github.io/rust-from-scratch-ch03/#2-zi-ding-yi-fu-he-lei-xing" class="toc-link">2. 自定义复合类型</a>
+                    
+                    <ul>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#2-1-jie-gou-ti-struct" class="toc-link">2.1 结构体（struct）</a>
+                        </li>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#2-2-mei-ju-ti-enum" class="toc-link">2.2 枚举体（Enum）</a>
+                        </li>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#2-3-lian-he-ti-union" class="toc-link">2.3 联合体（Union）</a>
+                        </li>
+                        
+                    </ul>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://jessun.github.io/rust-from-scratch-ch03/#3-rong-qi-lei-xing" class="toc-link">3. 容器类型</a>
+                    
+                    <ul>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#3-1-cell" class="toc-link">3.1 Cell</a>
+                        </li>
+                        
+                        <li>
+                            <a href="https://jessun.github.io/rust-from-scratch-ch03/#3-2-refcell" class="toc-link">3.2 RefCell</a>
+                        </li>
+                        
+                    </ul>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://jessun.github.io/rust-from-scratch-ch03/#4-fan-xing" class="toc-link">4. 泛型</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://jessun.github.io/rust-from-scratch-ch03/#5-te-ding-lei-xing" class="toc-link">5. 特定类型</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://jessun.github.io/rust-from-scratch-ch03/#6-trait-te-zhi" class="toc-link">6. trait 特质</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://jessun.github.io/rust-from-scratch-ch03/#can-kao" class="toc-link">参考</a>
+                    
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<article class="post">
+    
+    <header class="post__header">
+        <span class="post__title">
+            <a href="https:&#x2F;&#x2F;jessun.github.io&#x2F;rust-from-scratch-ch03&#x2F;">Rust From Scratch chap.03 | Rust 的类型系统</a>
+        </span>
+        <span class="post__meta">
+            <span class="post__time">2021-02-25</span>
+            
+        </span>
+    </header>
+
+    <div class="post-content">
+      <hr />
+<h1 id="1-ji-ben-shu-ju-lei-xing">1. 基本数据类型</h1>
+<h2 id="1-1-zheng-xing">1.1 整型</h2>
+<p>u8/i8/usize/isize 等</p>
+<h2 id="1-2-fu-dian-xing">1.2 浮点型</h2>
+<p>f32/f64 等</p>
+<h2 id="1-3-zi-fu-chuan">1.3 字符串</h2>
+<h3 id="1-3-1-str-str">1.3.1 str -&gt; &amp;str</h3>
+<p><code>str</code>类型是一个动态大小的类型，表示字符串切片。<code>&amp;str</code>引用被称为胖指针，表示栈上存储一个指向静态区域或者是堆内存的指针，以及数据的长度。
+因为它比普通指针多占用一些空间（记录数据长度等元信息），所以叫做胖指针。
+对于字面量来说，字符串可以存储在静态数据区。栈内存只存指针，所以它是一个静态引用字符串切片类型。</p>
+<h3 id="1-3-2-t-t">1.3.2 [T] -&gt; &amp;[T]</h3>
+<p>u8 序列切片和字符串切片的区别在于：字符串切片必然是 UTF-8 编码的合法字符串。u8 序列切片不一定是合法的 UTF-8 编码字符串。</p>
+<h3 id="1-3-3-string-vec">1.3.3 String -&gt; Vec<u8></h3>
+<p>String 是存储在堆上的，具有合法 UTF-8 编码的 u8 动态数组序列。u8 动态数组序列不一定是合法的 UTF-8 编码的字符串。</p>
+<h3 id="1-3-4-qi-ta-todo">1.3.4 其他（TODO）</h3>
+<h2 id="1-4-zhi-zhen-lei-xing">1.4 指针类型</h2>
+<h3 id="1-4-1-yuan-shi-zhi-zhen">1.4.1 原始指针</h3>
+<p><code>*mut T</code>和<code>*const T</code>，等价于 C 语言中的指针，可以为空，一般用于 unsafe Rust 中。</p>
+<h3 id="1-4-2-nonnull-zhi-zhen">1.4.2 NonNull 指针</h3>
+<p>NonNull 指针是 Rust 语言建议的 *mut T 指针的替代指针。NonNull 指针是非空指针，并且是遵循生命周期类型协变规则。</p>
+<h3 id="1-4-3-han-shu-zhi-zhen">1.4.3 函数指针</h3>
+<p>函数指针是指向代码的指针，而非数据。你可以使用它直接调用函数。</p>
+<h2 id="1-5-yin-yong">1.5 引用</h2>
+<ul>
+<li>不可变引用/共享引用，<code>&amp;T</code></li>
+<li>可变引用/独占引用，<code>&amp;mut T</code></li>
+</ul>
+<p>引用和指针的主要区别：</p>
+<ul>
+<li>引用不可能为空</li>
+<li>拥有生命周期</li>
+<li>受借用检查器保护不会发生悬垂指针等问题</li>
+</ul>
+<h2 id="1-6-yuan-zu">1.6 元组</h2>
+<ul>
+<li>Rust 中唯一的异构序列，可以在元组中放入不同类型的值。</li>
+<li>不同长度的元组是不同类型。</li>
+<li>单元类型的唯一实例等价于空元组。</li>
+<li>当元组只有一个元素的时候，要在元素末尾加逗号分隔这是为了方便和括号操作符区分开来。</li>
+</ul>
+<h2 id="1-7-never-lei-xing">1.7 Never 类型</h2>
+<ul>
+<li>代表的是不可能返回值的计算类型。在类型理论中，叫做底类型。底类型不包含任何值，但它可以合一到任何其他类型。</li>
+<li>Never 类型用「!」表示。</li>
+<li>目前还未文档，但是在 Rust 内部已经在用了。</li>
+</ul>
+<h1 id="2-zi-ding-yi-fu-he-lei-xing">2. 自定义复合类型</h1>
+<h2 id="2-1-jie-gou-ti-struct">2.1 结构体（struct）</h2>
+<h3 id="2-1-1-ju-ming-jie-gou-ti">2.1.1 具名结构体</h3>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#268bd2;">struct </span><span style="color:#b58900;">Point </span><span style="color:#657b83;">{
+    </span><span style="color:#268bd2;">x</span><span style="color:#839496;">: </span><span style="color:#268bd2;">f32</span><span style="color:#839496;">,
+    </span><span style="color:#268bd2;">y</span><span style="color:#839496;">: </span><span style="color:#268bd2;">f32</span><span style="color:#839496;">,
+</span><span style="color:#657b83;">}
+</span></code></pre>
+<p>与 golang 不同，rust 编译器会自动对结构体进行内存对齐。如果不希望编译器优化，则需要增加<code>#[repr(C)]</code>属性，表示使用C语言结构体
+布局。</p>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#839496;">#</span><span style="color:#657b83;">[</span><span style="color:#268bd2;">repr</span><span style="color:#657b83;">(</span><span style="color:#839496;">C</span><span style="color:#657b83;">)]
+</span><span style="color:#268bd2;">struct </span><span style="color:#b58900;">Point </span><span style="color:#657b83;">{
+    </span><span style="color:#268bd2;">x</span><span style="color:#839496;">: </span><span style="color:#268bd2;">f32</span><span style="color:#839496;">,
+    </span><span style="color:#268bd2;">y</span><span style="color:#839496;">: </span><span style="color:#268bd2;">f32</span><span style="color:#839496;">,
+</span><span style="color:#657b83;">}
+</span></code></pre><h3 id="2-1-2-yuan-zu-jie-gou-ti">2.1.2 元组结构体</h3>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#268bd2;">struct </span><span style="color:#b58900;">Score</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">u32</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+
+</span><span style="color:#268bd2;">impl </span><span style="color:#b58900;">Score </span><span style="color:#657b83;">{
+    </span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">pass</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span style="color:#268bd2;">self</span><span style="color:#657b83;">) </span><span style="color:#839496;">-&gt; </span><span style="color:#268bd2;">bool </span><span style="color:#657b83;">{
+        </span><span style="color:#d33682;">self</span><span style="color:#839496;">.</span><span style="color:#6c71c4;">0 </span><span style="color:#657b83;">&gt;= </span><span style="color:#6c71c4;">60
+    </span><span style="color:#657b83;">}
+}
+</span></code></pre>
+<p>元组结构体中的字段是没有字段名的，常用于包装某些基本类型。类似 Golang 中的 type。</p>
+<pre style="background-color:#002b36;">
+<code class="language-go" data-lang="go"><span style="color:#268bd2;">type </span><span style="color:#b58900;">Celsius </span><span style="color:#859900;">float64
+</span></code></pre><h3 id="2-1-3-dan-yuan-jie-gou-ti">2.1.3 单元结构体</h3>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#268bd2;">struct </span><span style="color:#b58900;">Unit</span><span style="color:#839496;">;
+</span></code></pre>
+<p>单元结构体没有字段，单元结构体的实例就是它自身，仅做占位用，零大小类型。</p>
+<h2 id="2-2-mei-ju-ti-enum">2.2 枚举体（Enum）</h2>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#268bd2;">enum </span><span style="color:#b58900;">E </span><span style="color:#657b83;">{
+</span><span style="color:#839496;">    N,
+    H</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">u32</span><span style="color:#657b83;">)</span><span style="color:#839496;">,      </span><span style="color:#586e75;">// 函数项构造器
+</span><span style="color:#839496;">    M</span><span style="color:#657b83;">(</span><span style="color:#859900;">Box</span><span style="color:#839496;">&lt;</span><span style="color:#268bd2;">u32</span><span style="color:#839496;">&gt;</span><span style="color:#657b83;">)</span><span style="color:#839496;">, </span><span style="color:#586e75;">// 函数项构造器，Box 占8个字节，tag会补齐7个字节，一共16个字节
+</span><span style="color:#657b83;">}
+</span></code></pre>
+<p>枚举体就是带tag的联合体，tag 可以理解为一种编号。tag 占一个字节。
+枚举值也可以叫判别式。</p>
+<h2 id="2-3-lian-he-ti-union">2.3 联合体（Union）</h2>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#839496;">union U </span><span style="color:#657b83;">{
+</span><span style="color:#839496;">    u: </span><span style="color:#268bd2;">u32</span><span style="color:#839496;">,
+    v: </span><span style="color:#268bd2;">u64</span><span style="color:#839496;">, </span><span style="color:#586e75;">// 占8个字节
+</span><span style="color:#657b83;">}
+</span></code></pre><h1 id="3-rong-qi-lei-xing">3. 容器类型</h1>
+<ul>
+<li>
+<p>可变容器</p>
+<ul>
+<li>UnsafeCell</li>
+<li>Cell</li>
+<li>RefCell</li>
+</ul>
+</li>
+<li>
+<p>集合容器</p>
+<ul>
+<li>Vec</li>
+<li>HashMap</li>
+</ul>
+</li>
+</ul>
+<p>内部可变性：</p>
+<ul>
+<li>内部可变性与继承式可变相对应</li>
+<li>内部可变性由可变性核心原语 UnsafeCell<T></li>
+<li>基于 UnsafeCell<T> 提供了 Cell<T> 和 RefCell<T></li>
+</ul>
+<h2 id="3-1-cell">3.1 Cell<T></h2>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#268bd2;">struct </span><span style="color:#b58900;">Foo </span><span style="color:#657b83;">{
+    </span><span style="color:#268bd2;">x</span><span style="color:#839496;">: </span><span style="color:#268bd2;">u32</span><span style="color:#839496;">,
+    </span><span style="color:#268bd2;">y</span><span style="color:#839496;">: Cell&lt;</span><span style="color:#268bd2;">u32</span><span style="color:#839496;">&gt;,
+</span><span style="color:#657b83;">}
+
+
+</span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">test_foo</span><span style="color:#657b83;">() {
+    </span><span style="color:#268bd2;">let</span><span style="color:#839496;"> foo </span><span style="color:#657b83;">=</span><span style="color:#839496;"> Foo </span><span style="color:#657b83;">{
+</span><span style="color:#839496;">        x: </span><span style="color:#6c71c4;">1</span><span style="color:#839496;">,
+        y: Cell::new</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">3</span><span style="color:#657b83;">)</span><span style="color:#839496;">,
+    </span><span style="color:#657b83;">}</span><span style="color:#839496;">;
+
+    </span><span style="color:#859900;">println!</span><span style="color:#657b83;">(</span><span style="color:#839496;">&quot;</span><span style="color:#cb4b16;">{}</span><span style="color:#839496;">&quot;, foo.y.</span><span style="color:#859900;">get</span><span style="color:#657b83;">())</span><span style="color:#839496;">;
+
+    foo.y.</span><span style="color:#859900;">set</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+
+    </span><span style="color:#268bd2;">let</span><span style="color:#839496;"> x </span><span style="color:#657b83;">= </span><span style="color:#839496;">Cell::new</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+    </span><span style="color:#268bd2;">let</span><span style="color:#839496;"> x1 </span><span style="color:#657b83;">=</span><span style="color:#839496;"> x.</span><span style="color:#859900;">into_inner</span><span style="color:#657b83;">()</span><span style="color:#839496;">; </span><span style="color:#586e75;">// 移出，MOVE
+    </span><span style="color:#859900;">...
+</span><span style="color:#657b83;">}
+</span></code></pre>
+<p><code>Cell</code>的<code>set()</code>方法和<code>get()</code>方法可以用来修改和获取内部变量。<code>Cell</code>的<code>get()</code>只能用于实现了<code>Copy</code>的类型。如果没有实现，则
+无法使用<code>get()</code>和<code>set()</code>方法。</p>
+<h2 id="3-2-refcell">3.2 RefCell<T></h2>
+<p>适用于没有实现<code>Copy</code>的类型。</p>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#586e75;">// 运行时借用检查
+</span><span style="color:#859900;">use </span><span style="color:#839496;">std::cell::RefCell;
+
+</span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">main</span><span style="color:#657b83;">() {
+    </span><span style="color:#268bd2;">let</span><span style="color:#839496;"> x </span><span style="color:#657b83;">= </span><span style="color:#839496;">RefCell::new</span><span style="color:#657b83;">(</span><span style="color:#859900;">vec!</span><span style="color:#657b83;">[</span><span style="color:#6c71c4;">1</span><span style="color:#839496;">, </span><span style="color:#6c71c4;">2</span><span style="color:#839496;">, </span><span style="color:#6c71c4;">3</span><span style="color:#839496;">, </span><span style="color:#6c71c4;">4</span><span style="color:#657b83;">])</span><span style="color:#839496;">;
+    </span><span style="color:#268bd2;">let </span><span style="color:#93a1a1;">mut</span><span style="color:#839496;"> mut_v </span><span style="color:#657b83;">=</span><span style="color:#839496;"> x.</span><span style="color:#859900;">borrow_mut</span><span style="color:#657b83;">()</span><span style="color:#839496;">;
+
+    mut_v.</span><span style="color:#859900;">push</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">5</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+
+    </span><span style="color:#268bd2;">let </span><span style="color:#93a1a1;">mut</span><span style="color:#839496;"> mut_v2 </span><span style="color:#657b83;">=</span><span style="color:#839496;"> x.</span><span style="color:#859900;">borrow_mut</span><span style="color:#657b83;">()</span><span style="color:#839496;">; </span><span style="color:#586e75;">// 此处会 panic
+</span><span style="color:#657b83;">}
+</span></code></pre><h1 id="4-fan-xing">4. 泛型</h1>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#268bd2;">fn </span><span style="color:#b58900;">foo</span><span style="color:#839496;">&lt;T&gt;</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">x</span><span style="color:#839496;">: T</span><span style="color:#657b83;">) </span><span style="color:#839496;">-&gt; T </span><span style="color:#657b83;">{
+    </span><span style="color:#859900;">return</span><span style="color:#839496;"> x;
+</span><span style="color:#657b83;">}
+
+</span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">main</span><span style="color:#657b83;">() {
+    </span><span style="color:#859900;">assert_eq!</span><span style="color:#657b83;">(</span><span style="color:#859900;">foo</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:#839496;">, </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+    </span><span style="color:#859900;">assert_eq!</span><span style="color:#657b83;">(</span><span style="color:#859900;">foo</span><span style="color:#657b83;">(</span><span style="color:#839496;">&quot;</span><span style="color:#2aa198;">hello</span><span style="color:#839496;">&quot;</span><span style="color:#657b83;">)</span><span style="color:#839496;">, &quot;</span><span style="color:#2aa198;">hello</span><span style="color:#839496;">&quot;</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+</span><span style="color:#657b83;">}
+</span></code></pre>
+<p>Rust 中泛型会在编译期就单态化（即静态分发），所以泛型是零成本的。</p>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#859900;">foo</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+</span><span style="color:#586e75;">// 等价于
+</span><span style="color:#839496;">foo::&lt;</span><span style="color:#268bd2;">i32</span><span style="color:#839496;">&gt;</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+
+</span><span style="color:#859900;">foo</span><span style="color:#657b83;">(</span><span style="color:#839496;">&quot;</span><span style="color:#2aa198;">hello</span><span style="color:#839496;">&quot;</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+</span><span style="color:#586e75;">// 等价于
+</span><span style="color:#839496;">foo::&lt;</span><span style="color:#859900;">&amp;</span><span style="color:#93a1a1;">&#39;static </span><span style="color:#268bd2;">str</span><span style="color:#839496;">&gt;</span><span style="color:#657b83;">(</span><span style="color:#839496;">&quot;</span><span style="color:#2aa198;">hello</span><span style="color:#839496;">&quot;</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+</span></code></pre>
+<p><code>::&lt;&gt;</code>称之为 turbofish 操作符，用于给泛型函数指定具体类型，对于可以推断的类型，是可以省略的。</p>
+<h1 id="5-te-ding-lei-xing">5. 特定类型</h1>
+<p>特性类型就是专门有特殊用途的类型。</p>
+<ol>
+<li>
+<p>PhantomData<T>，幻影类型。一般用于 Unsafe Rust 的安全抽象。</p>
+</li>
+<li>
+<p>Pin<T>，固定类型。</p>
+</li>
+</ol>
+<p>为了支持异步开发而特意引进，防止被引用的值发生移动的类型。</p>
+<h1 id="6-trait-te-zhi">6. trait 特质</h1>
+<p>Rust 中的<code>trait</code>类似Golang中的<code>interface</code>类型</p>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#93a1a1;">pub </span><span style="color:#268bd2;">trait </span><span style="color:#b58900;">Add</span><span style="color:#839496;">&lt;Rhs = Self&gt; </span><span style="color:#657b83;">{
+    </span><span style="color:#268bd2;">type </span><span style="color:#b58900;">Output</span><span style="color:#839496;">;
+    </span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">add</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">self</span><span style="color:#839496;">, </span><span style="color:#268bd2;">rhs</span><span style="color:#839496;">: Rhs</span><span style="color:#657b83;">) </span><span style="color:#839496;">-&gt; </span><span style="color:#268bd2;">Self::</span><span style="color:#839496;">Output;
+</span><span style="color:#657b83;">}
+
+</span><span style="color:#268bd2;">impl </span><span style="color:#839496;">Add </span><span style="color:#859900;">for </span><span style="color:#b58900;">u32 </span><span style="color:#657b83;">{
+    </span><span style="color:#268bd2;">type </span><span style="color:#b58900;">Output </span><span style="color:#657b83;">= </span><span style="color:#268bd2;">u32</span><span style="color:#839496;">;
+    </span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">add</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">self</span><span style="color:#839496;">, </span><span style="color:#268bd2;">rhs</span><span style="color:#839496;">: </span><span style="color:#268bd2;">u32</span><span style="color:#657b83;">) </span><span style="color:#839496;">-&gt; </span><span style="color:#268bd2;">u32 </span><span style="color:#657b83;">{
+        </span><span style="color:#d33682;">self </span><span style="color:#657b83;">+</span><span style="color:#839496;"> rhs
+    </span><span style="color:#657b83;">}
+}
+</span></code></pre>
+<p>孤儿规则：<code>trait</code>或类型，必须有一个在本地定义。</p>
+<pre style="background-color:#002b36;">
+<code class="language-rust" data-lang="rust"><span style="color:#268bd2;">struct </span><span style="color:#b58900;">A</span><span style="color:#839496;">;
+
+</span><span style="color:#268bd2;">impl </span><span style="color:#b58900;">A </span><span style="color:#657b83;">{
+    </span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">hello</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span style="color:#268bd2;">self</span><span style="color:#657b83;">) {
+        </span><span style="color:#859900;">println!</span><span style="color:#657b83;">(</span><span style="color:#839496;">&quot;</span><span style="color:#2aa198;"> in A</span><span style="color:#839496;">&quot;</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+    </span><span style="color:#657b83;">}
+}
+
+</span><span style="color:#268bd2;">trait </span><span style="color:#b58900;">Hello </span><span style="color:#657b83;">{
+    </span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">hello</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span style="color:#268bd2;">self</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+</span><span style="color:#657b83;">}
+
+</span><span style="color:#268bd2;">impl </span><span style="color:#839496;">Hello </span><span style="color:#859900;">for </span><span style="color:#b58900;">A </span><span style="color:#657b83;">{
+    </span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">hello</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span style="color:#268bd2;">self</span><span style="color:#657b83;">) {
+        </span><span style="color:#859900;">println!</span><span style="color:#657b83;">(</span><span style="color:#839496;">&quot;</span><span style="color:#2aa198;">from Hello trait</span><span style="color:#839496;">&quot;</span><span style="color:#657b83;">)</span><span style="color:#839496;">;
+    </span><span style="color:#657b83;">}
+}
+
+</span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">main</span><span style="color:#657b83;">() {
+    </span><span style="color:#268bd2;">let</span><span style="color:#839496;"> a </span><span style="color:#657b83;">=</span><span style="color:#839496;"> A;
+    a.</span><span style="color:#859900;">hello</span><span style="color:#657b83;">()</span><span style="color:#839496;">; </span><span style="color:#586e75;">// &quot; in A&quot;
+
+    // 完全无歧义限定语法
+    </span><span style="color:#657b83;">&lt;</span><span style="color:#839496;">A </span><span style="color:#859900;">as</span><span style="color:#839496;"> Hello</span><span style="color:#657b83;">&gt;</span><span style="color:#839496;">::hello</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span style="color:#839496;">a</span><span style="color:#657b83;">)</span><span style="color:#839496;">; </span><span style="color:#586e75;">// &quot;from Hello trait&quot;
+</span><span style="color:#657b83;">}
+</span></code></pre>
+<p>Rust 的类型系统遵循了仿射类型（Affine Type）的逻辑进行推理, 仿射类型是类型系统中的一种，一般用于标识内存和资源，最多只能被使用一次。</p>
+<p>Rust 内置<code>trait</code>分类：
+- 所有权。Copy/Unpin/Drop
+- 并发。Sync/Send
+- 大小。Sized
+- 默认值。Default
+- 智能指针。Deref
+- 类型转换。From/Into/AsRef</p>
+<h1 id="can-kao">参考</h1>
+<ul>
+<li>[1] <a href="https://time.geekbang.org/course/detail/100060601-292838">张汉东的Rust实战课</a></li>
+</ul>
+
+    </div>
+
+    
+    
+
+    <div class="post-footer">
+        
+            
+                <div class="post-tags">
+                    
+                        <a href="https:&#x2F;&#x2F;jessun.github.io&#x2F;tags&#x2F;rust&#x2F;">#rust</a>
+                    
+                </div>
+            
+            
+                <div class="post-nav">
+                    
+                        <a class="previous" href="https:&#x2F;&#x2F;jessun.github.io&#x2F;use-zola-blog-generator&#x2F;">‹ 使用 Zola 作为静态博客生成器</a>
+                    
+                    
+                        <a class="next" href="https:&#x2F;&#x2F;jessun.github.io&#x2F;rust-from-scratch-ch02-new&#x2F;">Rust From Scratch chap.02 | Rust 中的表达式（expressions）与语句（statements） ›</a>
+                    
+                    
+                    
+                </div>
+            
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+                </div>
+            </main>
+
+            
+            
+        </div>
+
+      
+          <script type="text/javascript" src="https:&#x2F;&#x2F;jessun.github.io&#x2F;even.js" ></script>
+      
+    </body>
+
+</html>
