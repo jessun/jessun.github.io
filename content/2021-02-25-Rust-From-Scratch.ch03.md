@@ -244,3 +244,65 @@ foo::<&'static str>("hello");
 
 为了支持异步开发而特意引进，防止被引用的值发生移动的类型。
 
+# 6. trait 特质
+
+Rust 中的`trait`类似Golang中的`interface`类型
+
+```rust
+pub trait Add<Rhs = Self> {
+    type Output;
+    fn add(self, rhs: Rhs) -> Self::Output;
+}
+
+impl Add for u32 {
+    type Output = u32;
+    fn add(self, rhs: u32) -> u32 {
+        self + rhs
+    }
+}
+```
+
+孤儿规则：`trait`或类型，必须有一个在本地定义。
+
+```rust
+struct A;
+
+impl A {
+    fn hello(&self) {
+        println!(" in A");
+    }
+}
+
+trait Hello {
+    fn hello(&self);
+}
+
+impl Hello for A {
+    fn hello(&self) {
+        println!("from Hello trait");
+    }
+}
+
+fn main() {
+    let a = A;
+    a.hello(); // " in A"
+
+    // 完全无歧义限定语法
+    <A as Hello>::hello(&a); // "from Hello trait"
+}
+```
+
+Rust 的类型系统遵循了仿射类型（Affine Type）的逻辑进行推理, 仿射类型是类型系统中的一种，一般用于标识内存和资源，最多只能被使用一次。
+
+Rust 内置`trait`分类：
+    - 所有权。Copy/Unpin/Drop
+    - 并发。Sync/Send
+    - 大小。Sized
+    - 默认值。Default
+    - 智能指针。Deref
+    - 类型转换。From/Into/AsRef
+
+# 参考
+
+- [1] [张汉东的Rust实战课](https://time.geekbang.org/course/detail/100060601-292838)
+
