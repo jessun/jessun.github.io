@@ -1,6 +1,6 @@
 baseURL = 'https://jessun.github.io/'
 languageCode = 'zh-cn'
-title = ''
+title = "Jessun's Notes"
 theme = ['nostyleplease']
 
 [module]
