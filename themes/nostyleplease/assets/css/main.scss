@@ -19,7 +19,7 @@ body[a="dark"] { @include dark-appearance; }
 // bg color is also needed in html in order to
 // block body's background propagation
 // see: https://stackoverflow.com/a/61265706
-html, body { background: #E5E9F0; }
+html, body { background: white; }
 
 html { height: 100%; }
 
@@ -80,10 +80,10 @@ table, th, td {
 
 code {
   color: white;
-  background: #2E3441;
-  font-size: 80%;
+  background: #4C566A;
   padding: 0.1em 0.2em;
-  font-size: 90%;
+  font-size: 80%;
+  border-radius: 3px;
 }
 
 code.has-jax {
