@@ -23,11 +23,6 @@ html, body { background: white; }
 
 html { height: 100%; }
 
-a {
-   text-decoration: none;
-   color:  #BF616A;
-}
-
 body {
   color: black;
   font-family: monospace;
@@ -115,4 +110,9 @@ img {
 figcaption {
   text-align: center;
   opacity: 0.5;
+}
+
+a {
+   text-decoration: none;
+   color:  #BF616A;
 }
