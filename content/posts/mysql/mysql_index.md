@@ -1,5 +1,5 @@
 +++
-title = "《高性能MySQL》读书笔记 | 索引"
+title = "MySQL | 《高性能MySQL》读书笔记之索引篇"
 date = "2019-03-11"
 description = ""
 tags = ["mysql","《高性能MySQL》"]
