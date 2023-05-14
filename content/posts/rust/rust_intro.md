@@ -4,7 +4,6 @@ date = "2023-05-11"
 description = ""
 tags = ["rust"]
 categories = ["rust"]
-slug = "rust-intro"
 toc = true
 tocBorder = true
 +++
