@@ -1,5 +1,5 @@
 +++
-title = "Rust | 介绍与安装"
+title = "Rust 学习笔记 | 介绍与安装"
 date = "2023-05-11"
 description = ""
 tags = ["rust"]
