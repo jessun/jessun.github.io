@@ -5,7 +5,7 @@ description = ""
 tags = ["mysql","《高性能MySQL》"]
 categories = ["mysql"]
 toc = true
-draft = true
+draft = false
 +++
 
 ## 基本概念
