@@ -1,6 +1,6 @@
 +++
-title = "Markdown Sample 2"
-date = "2018-01-01"
+title = "Markdown | Sample 2"
+date = "2017-07-01"
 description = ""
 tags = ["markdown"]
 categories = ["markdown"]
