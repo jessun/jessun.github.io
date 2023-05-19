@@ -21,7 +21,7 @@ body[a="dark"] { @include dark-appearance; }
 // see: https://stackoverflow.com/a/61265706
 @font-face {
     font-family: "Sarasa Gothic SC";
-    src: url("/css/sarasa-gothic-sc-regular.ttf") format("truetype");
+    src: url("https://github.com/jessun/jessun.github.io/raw/main/themes/nostyleplease/assets/css/sarasa-gothic-sc-regular.ttf") format("truetype");
 }
 html, body { background: white; }
 
