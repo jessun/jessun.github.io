@@ -19,13 +19,17 @@ body[a="dark"] { @include dark-appearance; }
 // bg color is also needed in html in order to
 // block body's background propagation
 // see: https://stackoverflow.com/a/61265706
+@font-face {
+    font-family: "Sarasa Gothic SC";
+    src: url("/css/sarasa-gothic-sc-regular.ttf") format("truetype");
+}
 html, body { background: white; }
 
 html { height: 100%; }
 
 body {
   color: #2E3440;
-  font-family: monospace;
+  font-family: "Sarasa Gothic SC";
   font-size: 16px;
   line-height: 1.4;
   margin: 0;
@@ -81,9 +85,9 @@ table, th, td {
 code {
   color: white;
   background: #4C566A;
-  padding: 0.1em 0.2em;
+  padding: 0em 0.5em;
   font-size: 80%;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 code.has-jax {
