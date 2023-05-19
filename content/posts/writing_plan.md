@@ -19,7 +19,7 @@ draft = true
 - [ ] Golang | Prometheus | 源码分析系列
 - [ ] Golang | Thanos | 源码分析系列
 - [ ] Golang | pingcap/parser 源码分析系列
-- [ ] Golang | 泛型
+- [ ] Golang | 泛型的使用
 
 ## Rust
 
@@ -31,7 +31,7 @@ draft = true
 
 ## NET
 
-- [ ] HTTPS |
+- [ ] HTTPS | IMAP 协议
 
 ## 其他
 
