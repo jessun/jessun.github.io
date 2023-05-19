@@ -1,12 +1,11 @@
 +++
-title = "工具介绍 | 绘图工具 PlantUML 介绍（WIP）"
+title = "工具介绍 | 绘图工具 PlantUML 介绍"
 date = "2018-01-01"
 description = ""
 tags = ["tools","uml"]
 categories = ["tools"]
 toc = true
 tocBorder = true
-draft = true
 +++
 
 

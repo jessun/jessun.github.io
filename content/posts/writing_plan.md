@@ -35,4 +35,4 @@ draft = true
 
 ## 其他
 
-- [ ] 工具 | 绘图工具 PlantUML 介绍
+- [x] 工具 | 绘图工具 PlantUML 介绍
