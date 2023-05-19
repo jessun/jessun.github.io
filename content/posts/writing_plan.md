@@ -19,12 +19,19 @@ draft = true
 - [ ] Golang | Prometheus | 源码分析系列
 - [ ] Golang | Thanos | 源码分析系列
 - [ ] Golang | pingcap/parser 源码分析系列
+- [ ] Golang | 泛型
 
 ## Rust
 
 - [x] Rust 学习笔记 | 介绍和安装
 - [ ] Rust 学习笔记 | 智能指针
 - [ ] Rust 学习笔记 | 泛型和特征
+- [ ] Rust 学习笔记 | 类型（二）
+- [ ] Rust 学习笔记 | 类型（一）
+
+## NET
+
+- [ ] HTTPS |
 
 ## 其他
 
