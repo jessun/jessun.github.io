@@ -1,5 +1,5 @@
 +++
-title = "Rust 学习笔记 | 类型（二）"
+title = "Rust 学习笔记 | 数组、动态数组和 HashMap"
 date = "2020-07-01"
 description = ""
 tags = ["rust"]
@@ -9,15 +9,15 @@ tocBorder = true
 draft = false
 +++
 
-### 数组（array）
+## 数组（array）
 
-#### 概念要点
+### 概念要点
 
 - Rust 数组的概念与 Golang 中的类似；
 - 数组的长度是**固定的**，长度不同的数组不是一个类型；
 - 数组中的元素类型都必须是相同的。如果有需要，可以使用枚举类型或者特征对象来处理。
 
-#### 数组的相关操作
+### 数组的相关操作
 
 数组的创建
 ```rust
@@ -44,7 +44,7 @@ for (index, item) in int_array.iter().enumerate() {
 }								
 ```
 
-#### 数组切片
+### 数组切片
 
 ```rust
 let a: [i32; 5] = [1, 2, 3, 4, 5];
@@ -56,13 +56,13 @@ Rust 中数组切片的概念类似 Golang，都是对数组的片段引用。
 切片类型[T]的大小是不固定的，而切片引用类型&[T]的大小是固定。
 实际编码中，&[T]拥有固定的大小，因此使用更普遍，比如 &str。
 
-### 动态数组类型 Vec<T>
+## 动态数组类型 Vec<T>
 
-#### 概念要点
+### 概念要点
 
 - 动态数组类型用`Vec<T>`表示。
 
-#### 动态数组的相关操作
+### 动态数组的相关操作
 
 创建动态数组
 ```rust
@@ -128,13 +128,13 @@ let v: Vec<Box<dyn IpAddr>> = vec![
 
 ```
 
-### KV 存储 HashMap
+## KV 存储 HashMap
 
-#### 概念要点
+### 概念要点
 
 - HashMap 类似 Golang 中的 map；
 
-#### HashMap 的相关操作
+### HashMap 的相关操作
 
 HashMap 的创建
 ```rust
@@ -172,3 +172,8 @@ let old = scores.insert("Blue", 20);
 let v = scores.entry("Yellow").or_insert(5);
 
 ```
+
+### 哈希函数
+
+Rust HashMap 使用的哈希函数是`SipHash`，性能不是很高，但是安全性很好。
+可以根据具体的场景需要更改哈希函数。
