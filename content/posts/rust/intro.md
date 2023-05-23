@@ -16,6 +16,7 @@ Rust 的介绍，就不赘述了，还是去看 Wikipedia 上的吧 [Rust](https
 - [Rust设计模式](http://chuxiuhong.com/chuxiuhong-rust-patterns-zh/intro.html)
 - [Rust语言圣经](https://course.rs/about-book.html)
 - [Rust入门秘籍](https://rust-book.junmajinlong.com/)
+- [Google 推出的入门教程](https://google.github.io/comprehensive-rust/welcome.html)
 
 ## Rust 环境初始化
 
