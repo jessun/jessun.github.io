@@ -21,6 +21,8 @@ draft = true
 - [ ] Golang | pingcap/parser 源码分析系列
 - [ ] Golang | 泛型的使用
 - [ ] Golang | golang plugin 使用
+- [ ] Golang | 并发之道
+- [ ] Golang | 100-mistasks
 
 ## Rust
 
