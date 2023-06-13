@@ -13,6 +13,6 @@ show_more = true
 show_more_text = "See archive..."
 show_more_url = "posts"
 
-[[entries]]
-title = "rss"
-url = "index.xml"
+# [[entries]]
+# title = "rss"
+# url = "index.xml"
