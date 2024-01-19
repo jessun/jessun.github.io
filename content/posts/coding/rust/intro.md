@@ -78,6 +78,7 @@ edition = "2018"
 最后一行，`[dependencies]` 是罗列项目依赖的片段的开始。在 Rust 中，代码包被称为`crates`。Cargo 期望源文件存放在 `src` 目录中。
 ```bash
 cargo build  # 构建项目使用命令
+cargo build --release # 在优化模式下构建并生成可执行程序
 cargo run    # 编译并运行
 cargo check  # 检查代码但不编译
 cargo test   # 运行测试
