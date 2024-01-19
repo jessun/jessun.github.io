@@ -18,7 +18,6 @@ draft = true
 - [ ] Golang | profiling 和火焰图分析
 - [ ] Golang | Prometheus | 源码分析系列
 - [ ] Golang | Thanos | 源码分析系列
-- [ ] Golang | pingcap/parser 源码分析系列
 - [ ] Golang | 泛型的使用
 - [ ] Golang | golang plugin 使用
 - [ ] Golang | 并发之道
@@ -42,4 +41,3 @@ draft = true
 
 - [x] 工具 | 绘图工具 PlantUML 介绍
 - [ ] 工具 | Tcpdump
-
