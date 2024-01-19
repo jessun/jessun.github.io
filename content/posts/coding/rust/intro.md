@@ -95,5 +95,5 @@ cargo test   # 运行测试
     - [coc.nvim](https://github.com/neoclide/coc.nvim) 插件以及插件的插件 [coc-rust-analyzer](https://github.com/fannheyward/coc-rust-analyzer)；
     - rust 的 LSP server 是 [rust-analyzer](https://github.com/rust-analyzer/rust-analyzer) ，可以使用`cargo`进行安装`cargo install ra_ap_rust-analyzer `。
 
-- 安装 `cargo-edit` 来实现 `cargo add` 来编辑项目目录下的 `cargo.toml` 文件中的依赖项，仓库链接：`https://github.com/killercup/cargo-edit `。
-
+- 安装 `cargo-edit` 来实现 `cargo add xxx` 来编辑项目目录下的 `cargo.toml`
+  文件中的依赖项，安装`cargo install cargo-edit`。仓库链接：`https://github.com/killercup/cargo-edit`。
