@@ -11,7 +11,7 @@ draft = false
 
 ## Rust 所有的类型梳理
 
-- 基本类型（Primitive Types）
+- 基本类型（Primitive Types）或者叫标量类型（Scalar Types）
     - 布尔类型，bool，Copy
     - 字符类型，char，Copy
     - 数值类型
