@@ -11,7 +11,7 @@ draft = true
 
 ## MySQL
 
-- [ ] MySQL 学习 | SQL
+- [ ] MySQL 学习 | 重读《高性能MySQL》
 
 ## Golang
 
@@ -41,5 +41,5 @@ draft = true
 ## 其他
 
 - [x] 工具 | 绘图工具 PlantUML 介绍
-- [x] 工具 | Tcpdump
+- [ ] 工具 | Tcpdump
 
